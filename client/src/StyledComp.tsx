@@ -218,6 +218,22 @@ const AchievementBadgeHolder = styled.span`
   display: none;
 `;
 
+// const AlertHolder = styled.div<{ show: boolean }>`
+//   position: fixed;
+//   top: 10px;
+//   right: 10px;
+//   width: 300px;
+//   padding: 20px;
+//   background-color: orange;
+//   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+//   border-radius: 4px;
+//   opacity: ${(props) => (props.show ? 1 : 0)};
+//   transition: opacity 0.3s ease-in-out;
+//   visibility: hidden;
+// `;
+
+// const AlertMessage = styled.div``;
+
 export {
   ForecastBit,
   ForecastText,
@@ -244,4 +260,6 @@ export {
   NavBarTop,
   BandAid,
   SaveAlert,
+  // AlertHolder,
+  // AlertMessage,
 };

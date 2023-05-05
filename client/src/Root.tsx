@@ -23,6 +23,8 @@ import { ThemeProvider, useTheme } from './components/Profile/ThemeContext';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
 import { Prisma } from '@prisma/client';
 import ReportsList from './components/Reports/ReportsList';
+import Alerts from './Alerts';
+// import { AlertHolder, AlertMessage } from './StyledComp';
 
 export interface CurrentWeather {
   temperature: number;
@@ -157,6 +159,7 @@ const Root = () => {
   const [user, setUser] = useState<any>();
   const [geoLocation, setGeoLocation] = useState<any>();
   const [error, setError] = useState<string | undefined>(undefined);
+  //VARIABLES FOR BADGES/ACHIEVEMENTS
   //holds all badge objects
   const [allBadges, setAllBadges] = useState<Badge[]>([
     {
@@ -183,7 +186,11 @@ const Root = () => {
   const [selectedBadge, setSelectedBadge] = useState<string>(
     userBadges[0].badgeIcon
   );
-
+  //VARIABLES FOR ALERTS
+  const [achievementMessage, setAchievementMessage] = useState<string>('');
+  const [newAchievementEarned, setNewAchievementEarned] =
+    useState<boolean>(false);
+  //VARIABLES FOR WEATHER
   //stately variables to save the units of measurement the user wishes weather related figures to be displayed in
   const [windSpeedMeasurementUnit, setWindSpeedMeasurementUnit] =
     useState<string>('mph'); //should be either 'mph' or 'kmh',
@@ -205,6 +212,7 @@ const Root = () => {
   const [sunriseHour, setSunriseHour] = useState<number>(0);
   const [sunsetHour, setSunsetHour] = useState<number>(0);
 
+  //FUNCTIONS FOR WEATHER
   //coordinates for Marcus: latitude = 30.0; longitude = -90.17;
   const numDaysToForecast: number = 1; //this is for if we implement a weekly weather report
   const getForecasts = () => {
@@ -329,6 +337,7 @@ const Root = () => {
     return weatherIcon;
   };
 
+  //FUNCTIONS FOR BADGES/ACHIEVEMENTS
   //gets all badge objects on database as well as all badges the user has earned
   const getBadges = () => {
     axios
@@ -482,6 +491,31 @@ const Root = () => {
       );
   };
 
+  //FUNCTIONS FOR ALERTS
+  const triggerAlert = (alertMessage: string) => {
+    console.log('Show Alert button pressed!');
+    setAchievementMessage(alertMessage);
+    // setNewAchievementEarned(true);
+    // setTimeout(() => {
+    //   setNewAchievementEarned(false);
+    // }, 200);
+    alert(alertMessage);
+    return undefined;
+  };
+
+  const displayAlert = () => {
+    // if (newAchievementEarned) {
+    //   return (
+    //     <AlertHolder
+    //       className={`alert ${newAchievementEarned ? 'visible' : ''}`}
+    //     >
+    //       <AlertMessage className='message'>{achievementMessage}</AlertMessage>
+    //     </AlertHolder>
+    //   );
+    // }
+    return <div></div>;
+  };
+  //OTHER FUNCTIONS
   const findContext = () => {
     axios
       .get('auth/user')
@@ -546,7 +580,7 @@ const Root = () => {
         console.error(err);
       });
   };
-
+  //gets location on render and updates state with gps coordinates, then pulls weather with those coordinates
   useEffect(() => {
     if (geoLocation) {
       updateUserLocation(geoLocation);
@@ -554,15 +588,13 @@ const Root = () => {
     }
   }, []);
 
+  //runs these functions on render
   useEffect(() => {
     getLocation();
     findContext();
     getBadges();
     getSelectedBadge();
   }, []);
-
-  //function to watch userBadges and allBadges so that if badges update (new badge earned) it will update the displayed badges too
-  useEffect(() => {}, [userBadges, allBadges]);
 
   //sets user's displayed icon to their selected one; should update when the state variable for the badge URL changes
   useEffect(() => {
@@ -584,6 +616,9 @@ const Root = () => {
     }
   }, [selectedBadge]);
 
+  //function to watch userBadges and allBadges so that if badges update (new badge earned) it will update the displayed badges too
+  useEffect(() => {}, [userBadges, allBadges]);
+
   let homeForecasts: Hourly[] = new Array(4).fill(0).map(() => ({
     displayIcon: true,
     time: new Date(),
@@ -603,6 +638,7 @@ const Root = () => {
     isDay: true,
   }));
 
+  //sets up the forecasts to be displayed on home screen
   let found = false;
   let countIndex = 0;
   hourlyForecasts.forEach((ele) => {
@@ -629,7 +665,9 @@ const Root = () => {
     // <>
 
     <div className={isDark ? 'dark' : 'light'}>
-      <UserContext.Provider value={user!}></UserContext.Provider>
+      <UserContext.Provider value={user!}>
+        {displayAlert()}
+      </UserContext.Provider>
       <UserContext.Provider
         value={{
           user,
@@ -645,7 +683,7 @@ const Root = () => {
       >
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<App />}>
+            <Route path='/' element={<App triggerAlert={triggerAlert} />}>
               <Route
                 path='/home'
                 element={
