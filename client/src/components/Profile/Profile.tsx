@@ -22,8 +22,11 @@ import {
   AchievementBadge,
   AchievementBadgeAndTooltipContainer,
   AchievementBadgeHolder,
+  AlertHolder,
+  AlertMessage,
 } from '../../StyledComp';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import Alerts from 'client/src/components/Alerts/Alerts';
 
 export interface RideStats {
   activity: string;
@@ -42,6 +45,9 @@ const Profile = ({ handleToggleStyle, isDark, setIsDark }) => {
     tickBadgeCounter,
     addBadge,
     tierCheck,
+    achievementMessage,
+    newAchievementEarned,
+    triggerAlert,
   } = useContext(UserContext);
   //State values with useState hook.
   const [user, setUser] = useState('');

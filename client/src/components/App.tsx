@@ -3,13 +3,20 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { StopwatchTime } from '../Root';
 // import Stopwatch from './Stopwatch';
+import Alerts from './Alerts/Alerts';
 
 export interface AppProps {
   triggerAlert: (message: string) => undefined;
+  achievementMessage: string;
+  newAchievementEarned: boolean;
 }
 
 //We will eventually use Link to allow us to create clickable routing
-const App = ({ triggerAlert }: AppProps) => {
+const App = ({
+  triggerAlert,
+  achievementMessage,
+  newAchievementEarned,
+}: AppProps) => {
   // const [stopwatchState, setStopwatchState] =
   // useState<StopwatchTime>({ hours: 0, minutes: 0, seconds: 0 });
 
@@ -18,7 +25,7 @@ const App = ({ triggerAlert }: AppProps) => {
       <div>
         <button
           onClick={() => {
-            triggerAlert('TEST MESSAGE FOR ALERT');
+            triggerAlert(achievementMessage);
           }}
         >
           Test Alert

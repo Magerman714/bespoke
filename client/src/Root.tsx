@@ -23,7 +23,7 @@ import { ThemeProvider, useTheme } from './components/Profile/ThemeContext';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
 import { Prisma } from '@prisma/client';
 import ReportsList from './components/Reports/ReportsList';
-import Alerts from './Alerts';
+import Alerts from './components/Alerts/Alerts';
 // import { AlertHolder, AlertMessage } from './StyledComp';
 
 export interface CurrentWeather {
@@ -495,11 +495,10 @@ const Root = () => {
   const triggerAlert = (alertMessage: string) => {
     console.log('Show Alert button pressed!');
     setAchievementMessage(alertMessage);
-    // setNewAchievementEarned(true);
-    // setTimeout(() => {
-    //   setNewAchievementEarned(false);
-    // }, 200);
-    alert(alertMessage);
+    setNewAchievementEarned(true);
+    setTimeout(() => {
+      setNewAchievementEarned(false);
+    }, 200);
     return undefined;
   };
 
@@ -665,9 +664,7 @@ const Root = () => {
     // <>
 
     <div className={isDark ? 'dark' : 'light'}>
-      <UserContext.Provider value={user!}>
-        {displayAlert()}
-      </UserContext.Provider>
+      <UserContext.Provider value={user!}></UserContext.Provider>
       <UserContext.Provider
         value={{
           user,
@@ -679,11 +676,23 @@ const Root = () => {
           updateBadgeCounter,
           addBadge,
           tierCheck,
+          achievementMessage,
+          newAchievementEarned,
+          triggerAlert,
         }}
       >
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<App triggerAlert={triggerAlert} />}>
+            <Route
+              path='/'
+              element={
+                <App
+                  achievementMessage={achievementMessage}
+                  triggerAlert={triggerAlert}
+                  newAchievementEarned={newAchievementEarned}
+                />
+              }
+            >
               <Route
                 path='/home'
                 element={

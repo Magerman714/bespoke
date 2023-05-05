@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { AlertHolder, AlertMessage } from './StyledComp';
+import { AlertHolder, AlertMessage } from '../../StyledComp';
 
 interface AlertProps {
   achievementMessage: string;
@@ -17,12 +17,15 @@ const Alerts = ({ achievementMessage, newAchievementEarned }: AlertProps) => {
   //   };
   // }, []);
 
-  // return (
-  //   <AlertHolder className={`alert ${newAchievementEarned ? 'visible' : ''}`}>
-  //     <AlertMessage className='message'>{achievementMessage}</AlertMessage>
-  //   </AlertHolder>
-  // );
-  return <div></div>;
+  const checkVisibility = () => {
+    return newAchievementEarned ? 'show' : '';
+  };
+
+  return (
+    <AlertHolder {...checkVisibility}>
+      <AlertMessage className='message'>{achievementMessage}</AlertMessage>
+    </AlertHolder>
+  );
 };
 
 export default Alerts;
