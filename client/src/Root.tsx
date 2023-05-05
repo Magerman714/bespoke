@@ -223,10 +223,10 @@ const Root = () => {
           precipitationUnit: precipitationMeasurementUnit,
           windSpeedUnit: windSpeedMeasurementUnit,
           temperatureUnit: temperatureMeasurementUnit,
-          // latitude: geoLocation.lat,
           latitude: geoLocation.lat,
-          // longitude: geoLocation.lng,
+          //latitude: 29.9511,
           longitude: geoLocation.lng,
+          //longitude: -90.0715,
           numDaysToForecast: numDaysToForecast,
         },
       })
@@ -586,7 +586,7 @@ const Root = () => {
       updateUserLocation(geoLocation);
       getForecasts();
     }
-  }, []);
+  }, [geoLocation]);
 
   //runs these functions on render
   useEffect(() => {
