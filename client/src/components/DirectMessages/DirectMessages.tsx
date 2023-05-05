@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,7 @@ import io from 'socket.io-client';
 import * as SocketIOClient from 'socket.io-client';
 import { BandAid } from '../../StyledComp';
 import Conversations from './Conversations';
+import Alerts from '../Alerts';
 
 interface Message {
   id: number;
@@ -70,14 +71,39 @@ function Message({ text, fromMe }: Message) {
   );
 }
 
-function DirectMessages() {
+function DirectMessages({ achievementMessage, newAchievementEarned }) {
   const classes = useStyles();
   const inputClasses = inputTextStyle();
+
   const [messageInput, setMessageInput] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, senderId: 1, senderName: '', receiverId: 2, receiverName: '', text: 'Hello!', fromMe: false },
-    { id: 2, senderId: 2, senderName: '', receiverId: 1, receiverName: '', text: 'Hi there!', fromMe: true },
-    { id: 3, senderId: 1, senderName: '', receiverId: 2, receiverName: '', text: 'How are you?', fromMe: false },
+    {
+      id: 1,
+      senderId: 1,
+      senderName: '',
+      receiverId: 2,
+      receiverName: '',
+      text: 'Hello!',
+      fromMe: false,
+    },
+    {
+      id: 2,
+      senderId: 2,
+      senderName: '',
+      receiverId: 1,
+      receiverName: '',
+      text: 'Hi there!',
+      fromMe: true,
+    },
+    {
+      id: 3,
+      senderId: 1,
+      senderName: '',
+      receiverId: 2,
+      receiverName: '',
+      text: 'How are you?',
+      fromMe: false,
+    },
     {
       id: 4,
       senderId: 2,
@@ -216,7 +242,7 @@ function DirectMessages() {
         // console.log(response);
       })
       .catch((err) => {
-        console.log("NOOOOO", err);
+        console.log('NOOOOO', err);
       });
 
     // setMessages([...messages, newMessage]);
@@ -236,6 +262,10 @@ function DirectMessages() {
 
   return (
     <BandAid>
+      <Alerts
+        achievementMessage={achievementMessage}
+        newAchievementEarned={newAchievementEarned}
+      />
       <div>{`Hello ${name}!`}</div>
 
       <SearchUsers

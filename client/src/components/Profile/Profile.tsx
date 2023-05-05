@@ -26,7 +26,7 @@ import {
   AlertMessage,
 } from '../../StyledComp';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
-import Alerts from 'client/src/components/Alerts/Alerts';
+import Alerts from '../Alerts';
 
 export interface RideStats {
   activity: string;

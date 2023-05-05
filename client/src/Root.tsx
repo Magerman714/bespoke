@@ -23,7 +23,7 @@ import { ThemeProvider, useTheme } from './components/Profile/ThemeContext';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
 import { Prisma } from '@prisma/client';
 import ReportsList from './components/Reports/ReportsList';
-import Alerts from './components/Alerts/Alerts';
+import Alerts from './components/Alerts';
 // import { AlertHolder, AlertMessage } from './StyledComp';
 
 export interface CurrentWeather {
@@ -498,7 +498,8 @@ const Root = () => {
     setNewAchievementEarned(true);
     setTimeout(() => {
       setNewAchievementEarned(false);
-    }, 200);
+      console.log('newAchievementEarned has now been set to false');
+    }, 500);
     return undefined;
   };
 
@@ -594,6 +595,12 @@ const Root = () => {
     getBadges();
     getSelectedBadge();
   }, []);
+
+  //Triggers when newAchievementEarned changes
+  useEffect(() => {
+    console.log('the achievement message is now: ', achievementMessage);
+    console.log('newAchievementEarned is now: ', newAchievementEarned);
+  }, [newAchievementEarned]);
 
   //sets user's displayed icon to their selected one; should update when the state variable for the badge URL changes
   useEffect(() => {
@@ -739,7 +746,6 @@ const Root = () => {
                   />
                 }
               />
-              <Route path='directMessages' element={<DirectMessages />} />
               <Route path='createReport' element={<CreateReport />} />
               <Route
                 path='reportsList'
@@ -751,7 +757,15 @@ const Root = () => {
               />
               <Route path='reportsMap' element={<ReportsMap />} />
               {/* <Route path='stopwatch' element={<Stopwatch />} /> */}
-              <Route path='directMessages' element={<DirectMessages />} />
+              <Route
+                path='directMessages'
+                element={
+                  <DirectMessages
+                    achievementMessage={achievementMessage}
+                    newAchievementEarned={newAchievementEarned}
+                  />
+                }
+              />
             </Route>
           </Routes>
           {/* <button onClick={handleToggleStyle}>{isDark ? 'Light Mode' : 'Dark Mode'}</button> */}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { StopwatchTime } from '../Root';
 // import Stopwatch from './Stopwatch';
-import Alerts from './Alerts/Alerts';
+import Alerts from './Alerts';
 
 export interface AppProps {
   triggerAlert: (message: string) => undefined;
@@ -23,14 +23,15 @@ const App = ({
   return (
     <div>
       <div>
+        <Navbar />
         <button
+          style={{ zIndex: 2000 }}
           onClick={() => {
             triggerAlert(achievementMessage);
           }}
         >
           Test Alert
         </button>
-        <Navbar />
       </div>
       <div>
         {/* <Stopwatch stopwatchState={stopwatchState} setStopwatchState={setStopwatchState} /> */}

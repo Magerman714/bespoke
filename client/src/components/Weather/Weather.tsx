@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ForecastRow from './ForecastRow';
-import { RootPropsToWeather } from '../../Root';
+import { RootPropsToWeather, UserContext } from '../../Root';
 import { Hourly } from '../../Root';
 import { BandAid } from '../../StyledComp';
+import Alerts from '../Alerts';
 
 const Weather = ({
   windSpeedMeasurementUnit,
@@ -16,7 +17,7 @@ const Weather = ({
   getForecasts,
 }: RootPropsToWeather) => {
   //need to break up hourly forecasts into chunks of 4 forecasts each for the ForecastRow to map through
-
+  const { achievementMessage, newAchievementEarned } = useContext(UserContext);
   let forecastRowArrays: Hourly[][] = [];
   let forecastArray: Hourly[] = [];
 
@@ -45,6 +46,10 @@ const Weather = ({
           />
         );
       })}
+      <Alerts
+        achievementMessage={achievementMessage}
+        newAchievementEarned={newAchievementEarned}
+      ></Alerts>
     </BandAid>
   );
 };

@@ -195,6 +195,7 @@ const TooltipBox = styled.div`
   border: 10px solid green;
   padding: 25px;
   margin: 10px;
+  top: 50px;
   background-color: #ea960e;
 `;
 
@@ -220,19 +221,21 @@ const AchievementBadgeHolder = styled.span`
 
 const AlertHolder = styled.div<{ show: boolean }>`
   position: fixed;
-  top: 10px;
+  top: 67px;
   right: 10px;
   width: 300px;
+  height: 35px;
   padding: 20px;
   background-color: orange;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-
-  z-index: 2;
+  z-index: 2000;
+  opacity: ${(props) => (props.show ? '1' : '0')};
+  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 `;
 
 const AlertMessage = styled.div`
-  z-index: 1;
+  z-index: 3000;
 `;
 
 export {
